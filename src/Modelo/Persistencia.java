@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,8 +24,10 @@ public class Persistencia {
     DataInputStream entrada;
     DataOutputStream salida;
 
+    Calendar fesha = new GregorianCalendar();
+
     String encabezado[] = {
-        "Nombre", "Apellido", "Cedula", "Telefono", "OI", "OD", "ADD", "DP"
+        "Fecha", "Nombre", "Apellido", "Cedula", "Telefono", "OI", "OD", "ADD", "DP"
     };
 
     DefaultTableModel modelo = new DefaultTableModel(null, encabezado);
@@ -46,7 +50,8 @@ public class Persistencia {
 
         try {
 
-            String aux = historia.getNombre() + ";" + historia.getApellido() + ";" + historia.getCedula() + ";" + historia.getTelefono() + ";" + historia.getOi()
+            String aux = fesha.get(Calendar.DATE) + "/" + fesha.get(Calendar.MONTH) + "/" + fesha.get(Calendar.YEAR)
+                    + ";" + historia.getNombre() + ";" + historia.getApellido() + ";" + historia.getCedula() + ";" + historia.getTelefono() + ";" + historia.getOi()
                     + ";" + historia.getOd() + ";" + historia.getAdd() + ";" + historia.getDp() + "\n";
 
             salida = new DataOutputStream(new FileOutputStream("salida.csv", true));
@@ -70,23 +75,21 @@ public class Persistencia {
         try {
 
             entrada = new DataInputStream(new FileInputStream("salida.csv"));
-            Object fila[] = new Object[8];
+            Object fila[] = new Object[9];
 
             while ((cadena = entrada.readLine()) != null) {
 
                 String campos[] = cadena.split(";");
 
-                fila[0] = campos[0];
-                fila[1] = campos[1];
-                fila[2] = campos[2];
-                fila[3] = campos[3];
-                fila[4] = campos[4];
-                fila[5] = campos[5];
-                fila[6] = campos[6];
-                fila[7] = campos[7];
+                for (int i = 0; i < campos.length; i++) {
+
+                    fila[i] = campos[i];
+                }
 
                 modelo.addRow(fila);
             }
+
+            entrada.close();
 
         } catch (EOFException ex) {
             JOptionPane.showMessageDialog(null, "Información leida, de clic en en boton",

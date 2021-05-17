@@ -31,7 +31,7 @@ public class Controlador implements ActionListener {
         VistaPrincipal = new Principal();
         VistaPrincipal.getBtn_guardar().addActionListener(this);
         VistaPrincipal.getBtn_ver().addActionListener(this);
-        
+
         objPersistencia = new Persistencia();
 
     }
@@ -61,8 +61,8 @@ public class Controlador implements ActionListener {
 
             for (int i = 0; i < arrayAux.length; i++) {
 
-                if (arrayAux[i] == null) {
-                    arrayAux[i] = "-";
+                if (arrayAux[i].equals("")) {
+                    arrayAux[i] = "*";
                 }
             }
 
