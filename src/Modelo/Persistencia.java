@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Persistencia {
 
-    File archivo = new File("Test.txt");
+    File archivo = new File("salida.csv");
 
     DataInputStream entrada;
     DataOutputStream salida;
@@ -33,7 +33,7 @@ public class Persistencia {
         try {
 
             if (!archivo.exists()) {
-                salida = new DataOutputStream(new FileOutputStream("Salida.csv"));
+                salida = new DataOutputStream(new FileOutputStream("salida.csv"));
             }
 
         } catch (IOException ex) {
@@ -47,9 +47,9 @@ public class Persistencia {
         try {
 
             String aux = historia.getNombre() + ";" + historia.getApellido() + ";" + historia.getCedula() + ";" + historia.getTelefono() + ";" + historia.getOi()
-                    + ";" + historia.getOd() + ";" + historia.getAdd() + ";" + historia.getDp();
+                    + ";" + historia.getOd() + ";" + historia.getAdd() + ";" + historia.getDp() + "\n";
 
-            //salida = new DataOutputStream(new FileOutputStream("Salida.csv"));
+            salida = new DataOutputStream(new FileOutputStream("salida.csv", true));
 
             salida.writeBytes(aux);
             salida.flush();
@@ -69,7 +69,7 @@ public class Persistencia {
 
         try {
 
-            entrada = new DataInputStream(new FileInputStream("Salida.csv"));
+            entrada = new DataInputStream(new FileInputStream("salida.csv"));
             Object fila[] = new Object[8];
 
             while ((cadena = entrada.readLine()) != null) {
