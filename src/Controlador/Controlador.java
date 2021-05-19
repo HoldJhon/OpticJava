@@ -1,6 +1,5 @@
 package Controlador;
 
-import Modelo.Administrador;
 import Modelo.Historia;
 import Modelo.Persistencia;
 import Vista.Login;
@@ -13,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 public class Controlador implements ActionListener {
 
     Historia objHistoria;
-    //Administrador admin = new Administrador();
 
     Login VistaLogin;
     Principal VistaPrincipal;
@@ -88,7 +86,7 @@ public class Controlador implements ActionListener {
 
             modelo.setRowCount(0);
 
-            modelo = objPersistencia.mostrar();
+            modelo = objPersistencia.mostrar(VistaPrincipal.getTxt_buscar().getText());
             VistaPrincipal.getTbl_datos().setModel(modelo);
         }
     }

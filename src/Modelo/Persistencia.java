@@ -25,6 +25,7 @@ public class Persistencia {
     DataOutputStream salida;
 
     Calendar fesha = new GregorianCalendar();
+    String fecha;
 
     String encabezado[] = {
         "Fecha", "Nombre", "Apellido", "Cedula", "Telefono", "OI", "OD", "ADD", "DP"
@@ -49,8 +50,9 @@ public class Persistencia {
     public void adicionar(Historia historia) {
 
         try {
+            int temp = fesha.get(Calendar.MONTH) + 1;
 
-            String aux = fesha.get(Calendar.DATE) + "/" + fesha.get(Calendar.MONTH) + "/" + fesha.get(Calendar.YEAR)
+            String aux = fesha.get(Calendar.DATE) + "/" + temp + "/" + fesha.get(Calendar.YEAR)
                     + ";" + historia.getNombre() + ";" + historia.getApellido() + ";" + historia.getCedula() + ";" + historia.getTelefono() + ";" + historia.getOi()
                     + ";" + historia.getOd() + ";" + historia.getAdd() + ";" + historia.getDp() + "\n";
 
@@ -68,38 +70,85 @@ public class Persistencia {
         }
     }
 
-    public DefaultTableModel mostrar() {
+    public DefaultTableModel mostrar(String busca) {
 
         String cadena = null;
 
-        try {
+        if (busca.equals("")) {
 
-            entrada = new DataInputStream(new FileInputStream("salida.csv"));
-            Object fila[] = new Object[9];
+            try {
 
-            while ((cadena = entrada.readLine()) != null) {
+                entrada = new DataInputStream(new FileInputStream("salida.csv"));
+                Object fila[] = new Object[9];
 
-                String campos[] = cadena.split(";");
+                while ((cadena = entrada.readLine()) != null) {
 
-                for (int i = 0; i < campos.length; i++) {
+                    String campos[] = cadena.split(";");
 
-                    fila[i] = campos[i];
+                    for (int i = 0; i < campos.length; i++) {
+
+                        fila[i] = campos[i];
+                    }
+
+                    modelo.addRow(fila);
                 }
 
-                modelo.addRow(fila);
+                entrada.close();
+
+            } catch (EOFException ex) {
+                JOptionPane.showMessageDialog(null, "Información leida, de clic en en boton",
+                        "Fin del Archivo", JOptionPane.ERROR_MESSAGE);
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo leer el archivo", "Leer Archivo",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.toString() + "Errorsito de E/S", "Leer Archivo",
+                        JOptionPane.ERROR_MESSAGE);
             }
+        } else {
 
-            entrada.close();
+            try {
 
-        } catch (EOFException ex) {
-            JOptionPane.showMessageDialog(null, "Información leida, de clic en en boton",
-                    "Fin del Archivo", JOptionPane.ERROR_MESSAGE);
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo leer el archivo", "Leer Archivo",
-                    JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "Errorsito de E/S", "Leer Archivo",
-                    JOptionPane.ERROR_MESSAGE);
+                entrada = new DataInputStream(new FileInputStream("salida.csv"));
+                Object fila[] = new Object[9];
+
+                while ((cadena = entrada.readLine()) != null) {
+
+                    String campos[] = cadena.split(";");
+
+                    for (int i = 0; i < campos.length; i++) {
+
+                        if (campos[i].equals(busca)) {
+
+                            for (int j = 0; j < campos.length; j++) {
+
+                                fila[j] = campos[j];
+                            }
+
+                            modelo.addRow(fila);
+                            break;
+                        }
+                    }
+
+                }
+                
+                if(fila[0] == null){
+                    
+                    JOptionPane.showMessageDialog(null, "No existe");
+                }
+
+                entrada.close();
+
+            } catch (EOFException ex) {
+                JOptionPane.showMessageDialog(null, "Información leida, de clic en en boton",
+                        "Fin del Archivo", JOptionPane.ERROR_MESSAGE);
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo leer el archivo", "Leer Archivo",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.toString() + "Errorsito de E/S", "Leer Archivo",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         return modelo;
