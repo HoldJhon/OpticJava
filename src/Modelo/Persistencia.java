@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
@@ -19,7 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Persistencia {
 
-    File archivo = new File("salida.csv");
+    //Archivo salida
+    File archivoSalida = new File("salida.csv");
 
     DataInputStream entrada;
     DataOutputStream salida;
@@ -33,21 +36,40 @@ public class Persistencia {
 
     DefaultTableModel modelo = new DefaultTableModel(null, encabezado);
 
+    //Archivo usuarios
+    File archivoUsuario = new File("usuarios.txt");
+
+    ObjectOutputStream out;
+    ObjectInputStream in;
+
     public Persistencia() {
 
+        //Archivo salida
         try {
 
-            if (!archivo.exists()) {
+            if (!archivoSalida.exists()) {
                 salida = new DataOutputStream(new FileOutputStream("salida.csv"));
             }
 
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error de E/S", "Leer Archivo",
+            JOptionPane.showMessageDialog(null, "Error de E/S (salida)", "Leer Archivo (salida)",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        //Archivo usuario
+        try {
+
+            if (!archivoUsuario.exists()) {
+                out = new ObjectOutputStream(new FileOutputStream("usuarios.txt"));
+            }
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error de E/S (usuario)", "Leer Archivo (usuario)",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void adicionar(Historia historia) {
+    public void adicionarHistoria(Historia historia) {
 
         try {
             int temp = fesha.get(Calendar.MONTH) + 1;
@@ -67,6 +89,20 @@ public class Persistencia {
 
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Fuck");
+        }
+    }
+
+    public void adicionarUsuario(Admin usuario) {
+
+        try {
+            
+            out = new MiObjectOutputStream(new FileOutputStream("usuarios.txt", true));
+
+            out.writeObject(usuario);
+
+            JOptionPane.showMessageDialog(null, "Registro Guardado!!!", "Adición de información", JOptionPane.WARNING_MESSAGE);
+
+        } catch (IOException ex) {
         }
     }
 
@@ -131,9 +167,9 @@ public class Persistencia {
                     }
 
                 }
-                
-                if(fila[0] == null){
-                    
+
+                if (fila[0] == null) {
+
                     JOptionPane.showMessageDialog(null, "No existe");
                 }
 

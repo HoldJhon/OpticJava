@@ -1,19 +1,25 @@
 package Controlador;
 
+import Modelo.Admin;
 import Modelo.Historia;
 import Modelo.Persistencia;
 import Vista.Login;
 import Vista.Principal;
+import Vista.Registro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Controlador implements ActionListener {
 
     Historia objHistoria;
 
+    Admin objAdmin;
+
     Login VistaLogin;
+    Registro VistaRegistro;
     Principal VistaPrincipal;
 
     Persistencia objPersistencia;
@@ -24,18 +30,40 @@ public class Controlador implements ActionListener {
 
         VistaLogin = new Login();
         VistaLogin.getBoton_entrar().addActionListener(this);
+        VistaLogin.getBtn_registrar().addActionListener(this);
         VistaLogin.setVisible(true);
+
+        VistaRegistro = new Registro(VistaLogin, true);
+        VistaRegistro.getBtn_registro().addActionListener(this);
 
         VistaPrincipal = new Principal();
         VistaPrincipal.getBtn_guardar().addActionListener(this);
         VistaPrincipal.getBtn_ver().addActionListener(this);
 
         objPersistencia = new Persistencia();
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == VistaLogin.getBtn_registrar()) {
+
+            VistaRegistro.setVisible(true);
+
+        }
+
+        if (e.getSource() == VistaRegistro.getBtn_registro()) {
+
+            if (VistaRegistro.getTxt_regContra().getText().equals(VistaRegistro.getTxt_regConfirmContra().getText())) {
+
+                objAdmin = new Admin(VistaRegistro.getTxt_regUsuario().getText(), VistaRegistro.getTxt_regContra().getText());
+                
+                objPersistencia.adicionarUsuario(objAdmin);
+            }else{
+                
+                JOptionPane.showMessageDialog(VistaRegistro, "La clave no es la misma");
+            }
+        }
 
         if (e.getSource() == VistaLogin.getBoton_entrar()) {
 
@@ -68,7 +96,7 @@ public class Controlador implements ActionListener {
                     (String) arrayAux[3], (String) arrayAux[4], (String) arrayAux[5], (String) arrayAux[6],
                     (String) arrayAux[7]);
 
-            objPersistencia.adicionar(objHistoria);
+            objPersistencia.adicionarHistoria(objHistoria);
 
             //this.admin.getListaHistoria().add(objHistoria);
             VistaPrincipal.getTxt_nombre().setText("");
@@ -79,7 +107,6 @@ public class Controlador implements ActionListener {
             VistaPrincipal.getTxt_OD().setText("");
             VistaPrincipal.getTxt_add().setText("");
             VistaPrincipal.getTxt_dp().setText("");
-
         }
 
         if (e.getSource() == VistaPrincipal.getBtn_ver()) {

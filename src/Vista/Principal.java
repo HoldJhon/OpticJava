@@ -249,24 +249,12 @@ public class Principal extends javax.swing.JFrame {
         return btn_guardar;
     }
 
-    public void setBtn_guardar(JButton btn_guardar) {
-        this.btn_guardar = btn_guardar;
-    }
-
     public JButton getBtn_ver() {
         return btn_ver;
     }
 
-    public void setBtn_ver(JButton btn_ver) {
-        this.btn_ver = btn_ver;
-    }
-
     public JTable getTbl_datos() {
         return tbl_datos;
-    }
-
-    public void setTbl_datos(JTable tbl_datos) {
-        this.tbl_datos = tbl_datos;
     }
 
     public JTextField getTxt_OD() {

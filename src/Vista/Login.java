@@ -34,6 +34,7 @@ public class Login extends javax.swing.JFrame {
         ImagenContraseña = new javax.swing.JLabel();
         ImagenUsuario = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btn_registrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +60,8 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/Imagenes/imagenusuario.png"))); // NOI18N
 
+        btn_registrar.setText("Crear cuenta");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,7 +71,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
+                .addContainerGap(61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(boton_entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -79,7 +82,11 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_registrar)
+                .addGap(102, 102, 102))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,7 +103,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(txt_contraseña))
                 .addGap(30, 30, 30)
                 .addComponent(boton_entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,6 +115,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel ImagenContraseña;
     private javax.swing.JLabel ImagenUsuario;
     private javax.swing.JButton boton_entrar;
+    private javax.swing.JButton btn_registrar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField txt_contraseña;
     private javax.swing.JTextField txt_usuario;
@@ -121,5 +131,9 @@ public class Login extends javax.swing.JFrame {
 
     public JTextField getTxt_usuario() {
         return txt_usuario;
+    }
+
+    public JButton getBtn_registrar() {
+        return btn_registrar;
     }
 }
