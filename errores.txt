@@ -1,1 +1,3 @@
-Error al modificar el archivo de salida, no lee
+Error al modificar el archivo .cvs de salida, no lee
+Agregar opción de modificar datos de una fila desde el programa
+Agregar seguridad al crear nuevo usuario

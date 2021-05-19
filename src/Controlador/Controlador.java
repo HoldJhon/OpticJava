@@ -57,19 +57,30 @@ public class Controlador implements ActionListener {
             if (VistaRegistro.getTxt_regContra().getText().equals(VistaRegistro.getTxt_regConfirmContra().getText())) {
 
                 objAdmin = new Admin(VistaRegistro.getTxt_regUsuario().getText(), VistaRegistro.getTxt_regContra().getText());
-                
+
                 objPersistencia.adicionarUsuario(objAdmin);
-            }else{
-                
+
+                VistaRegistro.getTxt_regUsuario().setText("");
+                VistaRegistro.getTxt_regContra().setText("");
+                VistaRegistro.getTxt_regConfirmContra().setText("");
+            } else {
+
                 JOptionPane.showMessageDialog(VistaRegistro, "La clave no es la misma");
             }
         }
 
         if (e.getSource() == VistaLogin.getBoton_entrar()) {
 
-            VistaLogin.setVisible(false);
-            VistaPrincipal.setVisible(true);
+            boolean aux = objPersistencia.temporal(VistaLogin.getTxt_usuario().getText(), VistaLogin.getTxt_contraseña().getText());
 
+            if (aux == true) {
+
+                VistaLogin.setVisible(false);
+                VistaPrincipal.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(VistaLogin, "Usuario o contraseña incorrecta");
+                VistaLogin.getTxt_contraseña().setText("");
+            }
         }
 
         if (e.getSource() == VistaPrincipal.getBtn_guardar()) {
@@ -98,7 +109,6 @@ public class Controlador implements ActionListener {
 
             objPersistencia.adicionarHistoria(objHistoria);
 
-            //this.admin.getListaHistoria().add(objHistoria);
             VistaPrincipal.getTxt_nombre().setText("");
             VistaPrincipal.getTxt_apellido().setText("");
             VistaPrincipal.getTxt_cedula().setText("");

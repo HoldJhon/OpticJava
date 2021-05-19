@@ -16,7 +16,7 @@ public class Login extends javax.swing.JFrame {
         
         initComponents();
         
-        setTitle("Login");
+        setTitle("Inicio de sesion");
         setLocationRelativeTo(null);    //Coloca la ventana en medio de la pantalla
         setResizable(false);    //No deja cambiar el tamaño de la ventana
 

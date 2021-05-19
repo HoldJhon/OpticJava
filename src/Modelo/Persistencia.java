@@ -95,7 +95,7 @@ public class Persistencia {
     public void adicionarUsuario(Admin usuario) {
 
         try {
-            
+
             out = new MiObjectOutputStream(new FileOutputStream("usuarios.txt", true));
 
             out.writeObject(usuario);
@@ -103,6 +103,7 @@ public class Persistencia {
             JOptionPane.showMessageDialog(null, "Registro Guardado!!!", "Adición de información", JOptionPane.WARNING_MESSAGE);
 
         } catch (IOException ex) {
+            System.out.println("Rayos");
         }
     }
 
@@ -188,5 +189,37 @@ public class Persistencia {
         }
 
         return modelo;
+    }
+
+    public boolean temporal(String usuario, String clave) {
+
+        boolean aux = false;
+        try {
+
+            in = new ObjectInputStream(new FileInputStream("usuarios.txt"));
+
+            while (true) {
+
+                Admin persona = (Admin) in.readObject();
+
+                if (persona.getNombre().equals(usuario) && persona.getClave().equals(clave)) {
+
+                    return aux = true;
+                }
+            }
+
+        } catch (EOFException ex) {
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Clase No encontrada", "Leer Archivo",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo leer el archivo", "Leer Archivo",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.toString() + "Errorsito de E/S", "Leer Archivo",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        return aux;
     }
 }
