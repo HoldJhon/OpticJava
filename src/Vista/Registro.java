@@ -2,6 +2,7 @@ package Vista;
 
 import Modelo.PlaceHolder;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
@@ -29,11 +30,11 @@ public class Registro extends javax.swing.JDialog {
     private void initComponents() {
 
         txt_regUsuario = new javax.swing.JTextField();
-        txt_regContra = new javax.swing.JTextField();
-        txt_regConfirmContra = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btn_registro = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        txt_regContra = new javax.swing.JPasswordField();
+        txt_regConfirmContra = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -56,15 +57,14 @@ public class Registro extends javax.swing.JDialog {
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_regConfirmContra, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btn_registro)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btn_cancelar))
-                                .addComponent(txt_regUsuario)
-                                .addComponent(txt_regContra)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_registro)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_cancelar))
+                            .addComponent(txt_regUsuario)
+                            .addComponent(txt_regContra)
+                            .addComponent(txt_regConfirmContra))
                         .addGap(0, 25, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -79,7 +79,7 @@ public class Registro extends javax.swing.JDialog {
                 .addComponent(txt_regContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txt_regConfirmContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_registro)
                     .addComponent(btn_cancelar))
@@ -93,26 +93,10 @@ public class Registro extends javax.swing.JDialog {
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_registro;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField txt_regConfirmContra;
-    private javax.swing.JTextField txt_regContra;
+    private javax.swing.JPasswordField txt_regConfirmContra;
+    private javax.swing.JPasswordField txt_regContra;
     private javax.swing.JTextField txt_regUsuario;
     // End of variables declaration//GEN-END:variables
-
-    public JTextField getTxt_regConfirmContra() {
-        return txt_regConfirmContra;
-    }
-
-    public void setTxt_regConfirmContra(JTextField txt_regConfirmContra) {
-        this.txt_regConfirmContra = txt_regConfirmContra;
-    }
-
-    public JTextField getTxt_regContra() {
-        return txt_regContra;
-    }
-
-    public void setTxt_regContra(JTextField txt_regContra) {
-        this.txt_regContra = txt_regContra;
-    }
 
     public JTextField getTxt_regUsuario() {
         return txt_regUsuario;
@@ -120,6 +104,22 @@ public class Registro extends javax.swing.JDialog {
 
     public void setTxt_regUsuario(JTextField txt_regUsuario) {
         this.txt_regUsuario = txt_regUsuario;
+    }
+
+    public JPasswordField getTxt_regConfirmContra() {
+        return txt_regConfirmContra;
+    }
+
+    public void setTxt_regConfirmContra(JPasswordField txt_regConfirmContra) {
+        this.txt_regConfirmContra = txt_regConfirmContra;
+    }
+
+    public JPasswordField getTxt_regContra() {
+        return txt_regContra;
+    }
+
+    public void setTxt_regContra(JPasswordField txt_regContra) {
+        this.txt_regContra = txt_regContra;
     }
 
     public JButton getBtn_cancelar() {
