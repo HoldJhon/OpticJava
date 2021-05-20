@@ -35,6 +35,7 @@ public class Controlador implements ActionListener {
 
         VistaRegistro = new Registro(VistaLogin, true);
         VistaRegistro.getBtn_registro().addActionListener(this);
+        VistaRegistro.getBtn_cancelar().addActionListener(this);
 
         VistaPrincipal = new Principal();
         VistaPrincipal.getBtn_guardar().addActionListener(this);
@@ -68,6 +69,12 @@ public class Controlador implements ActionListener {
                 JOptionPane.showMessageDialog(VistaRegistro, "La clave no es la misma");
             }
         }
+        
+        if(e.getSource() == VistaRegistro.getBtn_cancelar()){
+            
+            VistaRegistro.setVisible(false);
+            VistaRegistro.dispose();
+        }
 
         if (e.getSource() == VistaLogin.getBoton_entrar()) {
 
@@ -76,6 +83,7 @@ public class Controlador implements ActionListener {
             if (aux == true) {
 
                 VistaLogin.setVisible(false);
+                VistaLogin.dispose();
                 VistaPrincipal.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(VistaLogin, "Usuario o contraseña incorrecta");
