@@ -75,8 +75,8 @@ public class Persistencia {
             int temp = fesha.get(Calendar.MONTH) + 1;
 
             String aux = fesha.get(Calendar.DATE) + "/" + temp + "/" + fesha.get(Calendar.YEAR)
-                    + ";" + historia.getNombre() + ";" + historia.getApellido() + ";" + historia.getCedula() + ";" + historia.getTelefono() + ";" + historia.getOi()
-                    + ";" + historia.getOd() + ";" + historia.getAdd() + ";" + historia.getDp() + "\n";
+                    + "," + historia.getNombre() + "," + historia.getApellido() + "," + historia.getCedula() + "," + historia.getTelefono() + "," + historia.getOi()
+                    + "," + historia.getOd() + "," + historia.getAdd() + "," + historia.getDp() + "\n";
 
             salida = new DataOutputStream(new FileOutputStream("salida.csv", true));
 
@@ -120,7 +120,7 @@ public class Persistencia {
 
                 while ((cadena = entrada.readLine()) != null) {
 
-                    String campos[] = cadena.split(";");
+                    String campos[] = cadena.split(",");
 
                     for (int i = 0; i < campos.length; i++) {
 
@@ -151,7 +151,7 @@ public class Persistencia {
 
                 while ((cadena = entrada.readLine()) != null) {
 
-                    String campos[] = cadena.split(";");
+                    String campos[] = cadena.split(",");
 
                     for (int i = 0; i < campos.length; i++) {
 
