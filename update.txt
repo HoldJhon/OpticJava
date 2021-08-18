@@ -1,2 +1,1 @@
-Eliminar filas
-Condicional de guardado por cedula
+Eliminar filas (No implementado porque está dificil)

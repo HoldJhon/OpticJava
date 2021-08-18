@@ -26,7 +26,7 @@ public class Persistencia {
     DataOutputStream salida;
 
     String encabezado[] = {
-        "Id","Fecha", "Nombre", "Apellido", "Cedula", "Telefono", "OI", "OD", "ADD", "DP"
+        "Id", "Fecha", "Nombre", "Apellido", "Cedula", "Telefono", "OI", "OD", "ADD", "DP"
     };
 
     DefaultTableModel modelo = new DefaultTableModel(null, encabezado);
@@ -198,7 +198,7 @@ public class Persistencia {
 
                     String campos[] = cadena.split(",");
 
-                    if (campos[4].equals(edit)) {
+                    if (campos[0].equals(edit)) {
 
                         for (int i = 0; i < campos.length; i++) {
 

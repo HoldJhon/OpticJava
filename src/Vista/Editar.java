@@ -19,7 +19,7 @@ public class Editar extends javax.swing.JDialog {
         setLocationRelativeTo(null);    //Coloca la ventana en medio de la pantalla
         setResizable(false);    //No deja cambiar el tamaño de la ventana
         
-        PlaceHolder buscar = new PlaceHolder("Nombre o Cedula", txt_editar);
+        PlaceHolder buscar = new PlaceHolder("ID", txt_editar);
     }
 
     @SuppressWarnings("unchecked")

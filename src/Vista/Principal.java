@@ -22,7 +22,7 @@ public class Principal extends javax.swing.JFrame {
         setResizable(false);    //No deja cambiar el tamaño de la ventana
 
         PlaceHolder buscar = new PlaceHolder("Nombre o Cedula", txt_buscar);
-        
+
         btn_nueva.setSelected(true);    //Aparece seleccionado para historia nueva
     }
 
