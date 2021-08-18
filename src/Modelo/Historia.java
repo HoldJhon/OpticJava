@@ -1,7 +1,7 @@
 package Modelo;
 
 public class Historia {
-
+    
     String nombre, apellido, cedula, telefono;
     String od, oi, add, dp;
 

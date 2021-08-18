@@ -1,0 +1,2 @@
+Eliminar filas
+Condicional de guardado por cedula

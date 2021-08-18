@@ -1,45 +1,41 @@
 package Controlador;
 
-import Modelo.Admin;
-import Modelo.Historia;
-import Modelo.Persistencia;
-import Vista.Login;
-import Vista.Principal;
-import Vista.Registro;
+import Modelo.*;
+import Vista.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.table.DefaultTableModel;
 
 public class Controlador implements ActionListener {
 
     Historia objHistoria;
-
-    Admin objAdmin;
-
-    Login VistaLogin;
-    Registro VistaRegistro;
     Principal VistaPrincipal;
+    Editar VistaEditar;
 
     Persistencia objPersistencia;
 
     DefaultTableModel modelo = new DefaultTableModel();
+    Object fila[] = new Object[9];
+    
+    Calendar fesha = new GregorianCalendar();
+    String fecha;
 
     public Controlador() {
 
-        VistaLogin = new Login();
-        VistaLogin.getBoton_entrar().addActionListener(this);
-        VistaLogin.getBtn_registrar().addActionListener(this);
-        VistaLogin.setVisible(true);
-
-        VistaRegistro = new Registro(VistaLogin, true);
-        VistaRegistro.getBtn_registro().addActionListener(this);
-        VistaRegistro.getBtn_cancelar().addActionListener(this);
-
         VistaPrincipal = new Principal();
+        VistaPrincipal.setVisible(true);
         VistaPrincipal.getBtn_guardar().addActionListener(this);
         VistaPrincipal.getBtn_ver().addActionListener(this);
+        VistaPrincipal.getBtn_editar().addActionListener(this);
+        VistaPrincipal.getBtn_nueva().addActionListener(this);
+        VistaPrincipal.getBtn_antigua().addActionListener(this);
+
+        VistaEditar = new Editar(VistaPrincipal, true);
+        VistaEditar.getBtn_aceptar().addActionListener(this);
+        VistaEditar.getBtn_cancelar().addActionListener(this);
 
         objPersistencia = new Persistencia();
     }
@@ -47,48 +43,18 @@ public class Controlador implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == VistaLogin.getBtn_registrar()) {
+        if (VistaPrincipal.getBtn_nueva().isSelected()) {
 
-            VistaRegistro.setVisible(true);
-
-        }
-
-        if (e.getSource() == VistaRegistro.getBtn_registro()) {
-
-            if (VistaRegistro.getTxt_regContra().getText().equals(VistaRegistro.getTxt_regConfirmContra().getText())) {
-
-                objAdmin = new Admin(VistaRegistro.getTxt_regUsuario().getText(), VistaRegistro.getTxt_regContra().getText());
-
-                objPersistencia.adicionarUsuario(objAdmin);
-
-                VistaRegistro.getTxt_regUsuario().setText("");
-                VistaRegistro.getTxt_regContra().setText("");
-                VistaRegistro.getTxt_regConfirmContra().setText("");
-            } else {
-
-                JOptionPane.showMessageDialog(VistaRegistro, "La clave no es la misma");
-            }
-        }
-        
-        if(e.getSource() == VistaRegistro.getBtn_cancelar()){
+            VistaPrincipal.getTxt_fecha().setVisible(false);
+            VistaPrincipal.getLbl_fecha().setVisible(false);
             
-            VistaRegistro.setVisible(false);
-            VistaRegistro.dispose();
-        }
+            int temp = fesha.get(Calendar.MONTH) + 1;
+            fecha = fesha.get(Calendar.DATE) + "/" + temp + "/" + fesha.get(Calendar.YEAR);
+        } else if (VistaPrincipal.getBtn_antigua().isSelected()) {
 
-        if (e.getSource() == VistaLogin.getBoton_entrar()) {
-
-            boolean aux = objPersistencia.temporal(VistaLogin.getTxt_usuario().getText(), VistaLogin.getTxt_contraseña().getText());
-
-            if (aux == true) {
-
-                VistaLogin.setVisible(false);
-                VistaLogin.dispose();
-                VistaPrincipal.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(VistaLogin, "Usuario o contraseña incorrecta");
-                VistaLogin.getTxt_contraseña().setText("");
-            }
+            VistaPrincipal.getTxt_fecha().setVisible(true);
+            VistaPrincipal.getLbl_fecha().setVisible(true);
+            fecha = VistaPrincipal.getTxt_fecha().getText();
         }
 
         if (e.getSource() == VistaPrincipal.getBtn_guardar()) {
@@ -115,7 +81,7 @@ public class Controlador implements ActionListener {
                     (String) arrayAux[3], (String) arrayAux[4], (String) arrayAux[5], (String) arrayAux[6],
                     (String) arrayAux[7]);
 
-            objPersistencia.adicionarHistoria(objHistoria);
+            objPersistencia.adicionarHistoria(objHistoria, fecha);
 
             VistaPrincipal.getTxt_nombre().setText("");
             VistaPrincipal.getTxt_apellido().setText("");
@@ -133,6 +99,35 @@ public class Controlador implements ActionListener {
 
             modelo = objPersistencia.mostrar(VistaPrincipal.getTxt_buscar().getText());
             VistaPrincipal.getTbl_datos().setModel(modelo);
+            
+            VistaPrincipal.getTxt_buscar().setText("");
         }
+
+        if (e.getSource() == VistaPrincipal.getBtn_editar()) {
+
+            VistaEditar.setVisible(true);
+        }
+        
+        if (e.getSource() == VistaEditar.getBtn_aceptar()) {
+
+            fila  = objPersistencia.editar(VistaEditar.getTxt_editar().getText());
+            
+            VistaPrincipal.getTxt_nombre().setText((String) fila[2]);
+            VistaPrincipal.getTxt_apellido().setText((String) fila[3]);
+            VistaPrincipal.getTxt_cedula().setText((String) fila[4]);
+            VistaPrincipal.getTxt_telefono().setText((String) fila[5]);
+            VistaPrincipal.getTxt_OI().setText((String) fila[6]);
+            VistaPrincipal.getTxt_OD().setText((String) fila[7]);
+            VistaPrincipal.getTxt_add().setText((String) fila[8]);
+            VistaPrincipal.getTxt_dp().setText((String) fila[9]);
+            
+            VistaEditar.dispose();  //cierra
+        }
+
+        if (e.getSource() == VistaEditar.getBtn_cancelar()) {
+
+            VistaEditar.dispose();
+        }
+
     }
 }

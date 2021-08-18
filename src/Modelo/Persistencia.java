@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,22 +20,16 @@ import javax.swing.table.DefaultTableModel;
 public class Persistencia {
 
     //Archivo salida
-    File archivoSalida = new File("salida.csv");
+    File archivoSalida = new File("Datos.csv");
 
     DataInputStream entrada;
     DataOutputStream salida;
 
-    Calendar fesha = new GregorianCalendar();
-    String fecha;
-
     String encabezado[] = {
-        "Fecha", "Nombre", "Apellido", "Cedula", "Telefono", "OI", "OD", "ADD", "DP"
+        "Id","Fecha", "Nombre", "Apellido", "Cedula", "Telefono", "OI", "OD", "ADD", "DP"
     };
 
     DefaultTableModel modelo = new DefaultTableModel(null, encabezado);
-
-    //Archivo usuarios
-    File archivoUsuario = new File("usuarios.txt");
 
     ObjectOutputStream out;
     ObjectInputStream in;
@@ -48,37 +40,49 @@ public class Persistencia {
         try {
 
             if (!archivoSalida.exists()) {
-                salida = new DataOutputStream(new FileOutputStream("salida.csv"));
+                salida = new DataOutputStream(new FileOutputStream("Datos.csv"));
             }
 
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error de E/S (salida)", "Leer Archivo (salida)",
                     JOptionPane.ERROR_MESSAGE);
         }
-
-        //Archivo usuario
-        try {
-
-            if (!archivoUsuario.exists()) {
-                out = new ObjectOutputStream(new FileOutputStream("usuarios.txt"));
-            }
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error de E/S (usuario)", "Leer Archivo (usuario)",
-                    JOptionPane.ERROR_MESSAGE);
-        }
     }
 
-    public void adicionarHistoria(Historia historia) {
+    public void adicionarHistoria(Historia historia, String fecha) {
 
         try {
-            int temp = fesha.get(Calendar.MONTH) + 1;
 
-            String aux = fesha.get(Calendar.DATE) + "/" + temp + "/" + fesha.get(Calendar.YEAR)
-                    + "," + historia.getNombre() + "," + historia.getApellido() + "," + historia.getCedula() + "," + historia.getTelefono() + "," + historia.getOi()
+            String cadena = null;
+            int aumentar = 1;
+            String filita = "";
+
+            entrada = new DataInputStream(new FileInputStream("Datos.csv"));
+
+            if (archivoSalida.length() == 0) {
+
+                filita = aumentar + "";
+            } else {
+
+                while ((cadena = entrada.readLine()) != null) {
+
+                    String campos[] = cadena.split(",");
+
+                    for (int i = 0; i < campos.length; i++) {
+
+                        aumentar = Integer.parseInt(campos[0]);
+                        aumentar++;
+                        filita = aumentar + "";
+                    }
+                }
+
+                entrada.close();
+            }
+
+            String aux = filita + "," + fecha + "," + historia.getNombre() + "," + historia.getApellido() + "," + historia.getCedula() + "," + historia.getTelefono() + "," + historia.getOi()
                     + "," + historia.getOd() + "," + historia.getAdd() + "," + historia.getDp() + "\n";
 
-            salida = new DataOutputStream(new FileOutputStream("salida.csv", true));
+            salida = new DataOutputStream(new FileOutputStream("Datos.csv", true));
 
             salida.writeBytes(aux);
             salida.flush();
@@ -92,21 +96,6 @@ public class Persistencia {
         }
     }
 
-    public void adicionarUsuario(Admin usuario) {
-
-        try {
-
-            out = new MiObjectOutputStream(new FileOutputStream("usuarios.txt", true));
-
-            out.writeObject(usuario);
-
-            JOptionPane.showMessageDialog(null, "Registro Guardado!!!", "Adición de información", JOptionPane.WARNING_MESSAGE);
-
-        } catch (IOException ex) {
-            System.out.println("Rayos");
-        }
-    }
-
     public DefaultTableModel mostrar(String busca) {
 
         String cadena = null;
@@ -115,8 +104,8 @@ public class Persistencia {
 
             try {
 
-                entrada = new DataInputStream(new FileInputStream("salida.csv"));
-                Object fila[] = new Object[9];
+                entrada = new DataInputStream(new FileInputStream("Datos.csv"));
+                Object fila[] = new Object[10];
 
                 while ((cadena = entrada.readLine()) != null) {
 
@@ -146,8 +135,8 @@ public class Persistencia {
 
             try {
 
-                entrada = new DataInputStream(new FileInputStream("salida.csv"));
-                Object fila[] = new Object[9];
+                entrada = new DataInputStream(new FileInputStream("Datos.csv"));
+                Object fila[] = new Object[10];
 
                 while ((cadena = entrada.readLine()) != null) {
 
@@ -155,7 +144,7 @@ public class Persistencia {
 
                     for (int i = 0; i < campos.length; i++) {
 
-                        if (campos[i].equals(busca)) {
+                        if (campos[2].equals(busca) || campos[3].equals(busca) || campos[4].equals(busca)) {
 
                             for (int j = 0; j < campos.length; j++) {
 
@@ -191,35 +180,55 @@ public class Persistencia {
         return modelo;
     }
 
-    public boolean temporal(String usuario, String clave) {
+    public Object[] editar(String edit) {
 
-        boolean aux = false;
-        try {
+        String cadena = null;
+        Object fila[] = new Object[10];
 
-            in = new ObjectInputStream(new FileInputStream("usuarios.txt"));
+        if (edit.equals("")) {
 
-            while (true) {
+            JOptionPane.showMessageDialog(null, "El campo de texto esta vacio");
+        } else {
 
-                Admin persona = (Admin) in.readObject();
+            try {
 
-                if (persona.getNombre().equals(usuario) && persona.getClave().equals(clave)) {
+                entrada = new DataInputStream(new FileInputStream("Datos.csv"));
 
-                    return aux = true;
+                while ((cadena = entrada.readLine()) != null) {
+
+                    String campos[] = cadena.split(",");
+
+                    if (campos[4].equals(edit)) {
+
+                        for (int i = 0; i < campos.length; i++) {
+
+                            fila[i] = campos[i];
+                        }
+
+                        break;
+                    }
+
                 }
-            }
 
-        } catch (EOFException ex) {
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Clase No encontrada", "Leer Archivo",
-                    JOptionPane.ERROR_MESSAGE);
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo leer el archivo", "Leer Archivo",
-                    JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "Errorsito de E/S", "Leer Archivo",
-                    JOptionPane.ERROR_MESSAGE);
+                if (fila[0] == null) {
+
+                    JOptionPane.showMessageDialog(null, "No existe");
+                }
+
+                entrada.close();
+
+            } catch (EOFException ex) {
+                JOptionPane.showMessageDialog(null, "Información leida, de clic en en boton",
+                        "Fin del Archivo", JOptionPane.ERROR_MESSAGE);
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo leer el archivo", "Leer Archivo",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.toString() + "Errorsito de E/S", "Leer Archivo",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        return aux;
+        return fila;
     }
 }
