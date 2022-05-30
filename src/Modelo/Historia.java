@@ -2,8 +2,8 @@ package Modelo;
 
 public class Historia {
 
-    String nombre, apellido, cedula, telefono;
-    String od, oi, add, dp;
+    private static String nombre, apellido, cedula, telefono;
+    private static  String od, oi, add, dp;
 
     public Historia() {
     }

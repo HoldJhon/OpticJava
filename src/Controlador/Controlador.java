@@ -1,9 +1,8 @@
 package Controlador;
 
 import Modelo.Historia;
-import Modelo.Persistencia;
-import Vista.Login;
 import Vista.Principal;
+import Sql.Sql;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,38 +10,26 @@ import javax.swing.table.DefaultTableModel;
 
 public class Controlador implements ActionListener {
 
+    Sql objSql;
+
     Historia objHistoria;
 
-    Login VistaLogin;
     Principal VistaPrincipal;
-
-    Persistencia objPersistencia;
 
     DefaultTableModel modelo = new DefaultTableModel();
 
     public Controlador() {
 
-        VistaLogin = new Login();
-        VistaLogin.getBoton_entrar().addActionListener(this);
-        VistaLogin.setVisible(true);
+        objSql = new Sql();
 
         VistaPrincipal = new Principal();
+        VistaPrincipal.setVisible(true);
         VistaPrincipal.getBtn_guardar().addActionListener(this);
         VistaPrincipal.getBtn_ver().addActionListener(this);
-
-        objPersistencia = new Persistencia();
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == VistaLogin.getBoton_entrar()) {
-
-            VistaLogin.setVisible(false);
-            VistaPrincipal.setVisible(true);
-
-        }
 
         if (e.getSource() == VistaPrincipal.getBtn_guardar()) {
 
@@ -68,9 +55,8 @@ public class Controlador implements ActionListener {
                     (String) arrayAux[3], (String) arrayAux[4], (String) arrayAux[5], (String) arrayAux[6],
                     (String) arrayAux[7]);
 
-            objPersistencia.adicionar(objHistoria);
+            objSql.insertar(objHistoria);
 
-            //this.admin.getListaHistoria().add(objHistoria);
             VistaPrincipal.getTxt_nombre().setText("");
             VistaPrincipal.getTxt_apellido().setText("");
             VistaPrincipal.getTxt_cedula().setText("");
@@ -79,15 +65,21 @@ public class Controlador implements ActionListener {
             VistaPrincipal.getTxt_OD().setText("");
             VistaPrincipal.getTxt_add().setText("");
             VistaPrincipal.getTxt_dp().setText("");
-
         }
 
         if (e.getSource() == VistaPrincipal.getBtn_ver()) {
 
-            modelo.setRowCount(0);
+            String aux = VistaPrincipal.getTxt_buscar().getText();
 
-            modelo = objPersistencia.mostrar(VistaPrincipal.getTxt_buscar().getText());
-            VistaPrincipal.getTbl_datos().setModel(modelo);
+            modelo.setRowCount(0);
+            if (aux.equals("")) {
+
+                modelo = objSql.mostrar("", true);
+                VistaPrincipal.getTbl_datos().setModel(modelo);
+            } else {
+                modelo = objSql.mostrar(VistaPrincipal.getTxt_buscar().getText(), false);
+                VistaPrincipal.getTbl_datos().setModel(modelo);
+            }
         }
     }
 }

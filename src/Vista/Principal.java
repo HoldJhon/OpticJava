@@ -5,10 +5,6 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-/**
- *
- * @author jhon
- */
 public class Principal extends javax.swing.JFrame {
 
     public Principal() {
@@ -18,7 +14,7 @@ public class Principal extends javax.swing.JFrame {
         setTitle("Menu");
         setLocationRelativeTo(null);    //Coloca la ventana en medio de la pantalla
         setResizable(false);    //No deja cambiar el tamaño de la ventana
-        
+
         PlaceHolder buscar = new PlaceHolder("Nombre o Cedula", txt_buscar);
     }
 
@@ -59,14 +55,14 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel3.setText("Cedula:");
 
-        jLabel4.setText("Nombre: ");
+        jLabel4.setText("Nombres: ");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Nueva Historia Clínica");
         jLabel5.setPreferredSize(new java.awt.Dimension(154, 20));
 
-        jLabel6.setText("Apellido:");
+        jLabel6.setText("Primer Apellido:");
 
         jLabel9.setText("Telefono:");
 
@@ -104,7 +100,7 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(txt_cedula, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_nombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                             .addComponent(txt_add))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

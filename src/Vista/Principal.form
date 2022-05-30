@@ -84,7 +84,7 @@
                                   <Component id="txt_nombre" alignment="0" pref="100" max="32767" attributes="0"/>
                                   <Component id="txt_add" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="65" max="32767" attributes="0"/>
+                              <EmptySpace pref="20" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
@@ -153,7 +153,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nombre: "/>
+                <Property name="text" type="java.lang.String" value="Nombres: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txt_nombre">
@@ -172,7 +172,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Apellido:"/>
+                <Property name="text" type="java.lang.String" value="Primer Apellido:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txt_apellido">
